@@ -23,7 +23,6 @@
                 "trunk.io",
                 "gruntfuggly.todo-tree",
                 "asciidoctor.asciidoctor-vscode",
-                "formulahendry.code-runner",
                 "github.copilot", 
                 "github.copilot-chat",
                 "christian-kohler.path-intellisense"

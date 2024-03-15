@@ -11,13 +11,13 @@ and the other numbers (if present) are the constraints (predecessors)'
 """
 
 class Task:
-    def __init__(self, task_number, duration, *args):
-        self.task_number = task_number
+    def __init__(self, task_id, duration, *args):
+        self.task_id = task_id
         self.duration = duration
         self.predecessors = args
 
     def __str__(self):
-        return f"Task number: {self.task_number}, Duration: {self.duration}, Predecessors: {self.predecessors}"
+        return f"Task number: {self.task_id}, Duration: {self.duration}, Predecessors: {self.predecessors}"
 
 def tasks_from_constraints(filename: str) -> list[Task]:
     """
