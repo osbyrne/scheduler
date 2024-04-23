@@ -143,16 +143,13 @@ def check_for_cycle(adjacency_matrix: List[List[int]]) -> bool:
                     visited[j] = True
     return False
 
-def check_negative_edge(adjacency_matrix: List[List[int]]) -> bool:
+def check_negative_edge(tasks: List[Task]) -> bool:
     # This function checks for negative edges in the given adjacency matrix.
     # It returns True if a negative edge is found, and False otherwise.
 
-    num_tasks = len(adjacency_matrix)
-
-    for i in range(num_tasks):
-        for j in range(num_tasks):
-            if adjacency_matrix[i][j] < 0:
-                return True
+    for task in tasks:
+        if task.duration < 0:
+            return True
     return False
 
 def getRank(tasks: List[Task]) -> List[int]:
