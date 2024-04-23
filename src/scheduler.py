@@ -213,6 +213,19 @@ def run_all():
 
 
 
+""" copilot input:
+create a CLI
+- ask the user to chose a file from the constraints folder or quit
+- verify user input
+- propose options to the user, including:
+    - display the tasks with words
+    - display the adjacency matrix
+    - display the predecessor matrix
+    - check for cycles
+    - check for negative edges
+    - display the ranks, only if there are no cycles and no negative edges
+    - chose another task (and go back to previous screen)
+"""
 def main():
     while True:
         # Ask the user to choose a file or quit
@@ -276,17 +289,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-"""
-create a CLI
-- ask the user to chose a file from the constraints folder or quit
-- verify user input
-- propose options to the user, including:
-    - display the tasks with words
-    - display the adjacency matrix
-    - display the predecessor matrix
-    - check for cycles
-    - check for negative edges
-    - display the ranks, only if there are no cycles and no negative edges
-    - chose another task (and go back to previous screen)
-"""
-
