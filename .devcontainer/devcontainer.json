@@ -20,6 +20,7 @@
             "extensions": [
                 "ms-python.python",
                 "charliermarsh.ruff",
+                "marp-team.marp-vscode",
                 "trunk.io",
                 "gruntfuggly.todo-tree",
                 "asciidoctor.asciidoctor-vscode",
