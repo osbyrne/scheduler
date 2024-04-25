@@ -1,0 +1,61 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "python@3.12.3": {
+      "last_modified": "2024-04-19T17:36:04-04:00",
+      "resolved": "github:NixOS/nixpkgs/92d295f588631b0db2da509f381b4fb1e74173c5#python312",
+      "source": "devbox-search",
+      "version": "3.12.3",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/7bz0d53vngyxzhs6axavfw2dhl9vwlww-python3-3.12.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/7bz0d53vngyxzhs6axavfw2dhl9vwlww-python3-3.12.3"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nw7n1zgfiwxvrlxcn6nkggvxvk6msvl9-python3-3.12.3",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/arq3230cyyd6lnwrjc2h5dz994ar4410-python3-3.12.3-debug"
+            }
+          ],
+          "store_path": "/nix/store/nw7n1zgfiwxvrlxcn6nkggvxvk6msvl9-python3-3.12.3"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/g8jihlbhc9sv3d2i4lnagyn2mj74mmjf-python3-3.12.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/g8jihlbhc9sv3d2i4lnagyn2mj74mmjf-python3-3.12.3"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/m51f0kclg01xdc0mjxqs5cpyaxqbqhg5-python3-3.12.3",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/f7z0xg5zf1c2b7lc8qjpd0p48lpc7rf1-python3-3.12.3-debug"
+            }
+          ],
+          "store_path": "/nix/store/m51f0kclg01xdc0mjxqs5cpyaxqbqhg5-python3-3.12.3"
+        }
+      }
+    }
+  }
+}
