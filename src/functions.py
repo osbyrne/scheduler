@@ -45,6 +45,7 @@ def tasks_from_constraints(filename: str) -> list[Task]:
         for predecessor in task.predecessors:
             predecessor_id = int(predecessor)
             tasks[predecessor_id - 1].successors.append(task.task_id) 
+    
             """ Why - 1 ?
             GitHub Copilot used /explain
                 Python uses zero-based indexing : the first element of a list has an index of 0.
@@ -139,29 +140,37 @@ def display_predecessor_matrix(predecessor_matrix: List[List[int]]) -> None:
         print()
 
 
-def check_for_cycle(adjacency_matrix: List[List[int]]) -> bool:
-    # This function checks for cycles in the given adjacency matrix.
-    # It uses a depth-first search (DFS) algorithm to traverse the graph.
-    # The algorithm starts from each task and explores its neighbors.
-    # If a neighbor has already been visited, it means there is a cycle in the graph.
-    # The function returns True if a cycle is found, and False otherwise.
-
-    num_tasks = len(adjacency_matrix)
-
-    for i in range(num_tasks):
-        visited = [False] * num_tasks
-        stack = [i]
-        visited[i] = True
-
-        while stack:
-            current_task = stack.pop()
-            for j in range(num_tasks):
-                if adjacency_matrix[current_task][j] == 1:
-                    if visited[j]:
-                        return True
-                    stack.append(j)
-                    visited[j] = True
     return False
+def check_for_cycle(tasks: List[Task]) -> bool:
+    """
+    This function checks for cycles in the task graph using depth-first search (DFS).
+    It starts from each unvisited task and explores its successors.
+    If a successor has already been visited, it means there is a cycle in the graph.
+    The function returns True if a cycle is found, and False otherwise.
+    """
+    visited = set()  # Initialize visited set to track visited tasks
+    
+    def dfs(task):
+        if task.task_id in visited:
+            return True  # Cycle detected
+        
+        visited.add(task.task_id)
+        
+        for successor_id in task.successors:
+            successor = tasks[successor_id - 1]  # Task IDs are 1-based
+            if dfs(successor):
+                return True
+        
+        visited.remove(task.task_id)  # Remove the task from visited set after DFS traversal
+        return False
+    
+    # Start DFS from each unvisited task
+    for task in tasks:
+        if task.task_id not in visited:
+            if dfs(task):
+                return True  # Cycle detected
+    
+    return False  # No cycles found
 
 def check_negative_edge(tasks: List[Task]) -> bool:
     # This function checks for negative edges in the given adjacency matrix.
