@@ -76,7 +76,7 @@ def main():
             print("3. Display predecessor matrix")
             print("4. Check for cycles")
             print("5. Check for negative edges")
-            if not check_for_cycle(generate_adjacency_matrix(tasks)) and not check_negative_edge(generate_adjacency_matrix(tasks)):
+            if not check_for_cycle((tasks)) and not check_negative_edge((tasks)):
                 print("6. Display ranks")
             print("7. Choose another file")
             print("8. Quit")
@@ -98,13 +98,13 @@ def main():
             elif option == 3:
                 display_predecessor_matrix(generate_predecessor_matrix(tasks))
             elif option == 4:
-                has_cycles = check_for_cycle(generate_adjacency_matrix(tasks))
+                has_cycles = check_for_cycle(tasks)
                 print("Table has cycles: (True is bad)", has_cycles)
             elif option == 5:
-                has_negative_edge = check_negative_edge(generate_adjacency_matrix(tasks))
+                has_negative_edge = check_negative_edge((tasks))
                 print("Table has a negative edge: (True is bad)", has_negative_edge)
             elif option == 6:
-                if not check_for_cycle(generate_adjacency_matrix(tasks)) and not check_negative_edge(generate_adjacency_matrix(tasks)):
+                if not check_for_cycle((tasks)) and not check_negative_edge((tasks)):
                     display_ranks(getRank(tasks))
             elif option == 7:
                 break
