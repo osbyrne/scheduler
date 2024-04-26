@@ -120,6 +120,21 @@ We will present to you the result of our project aimed at implementing schedulin
 
 ---
 # Predecessor Matrix
+    def generate_predecessor_matrix(tasks: List[Task]) -> List[List[int]]:
+    num_tasks = len(tasks)
+    predecessor_matrix = [[0] * num_tasks for _ in range(num_tasks)]
+
+    for task in tasks:
+        task_id = task.task_id
+        predecessors = task.predecessors
+
+        for predecessor in predecessors:
+            predecessor_id = int(predecessor)
+            predecessor_matrix[task_id - 1][predecessor_id - 1] = 1
+
+    return predecessor_matrix
+
+
     def display_predecessor_matrix(predecessor_matrix: List[List[int]]) -> None:
         """
         Displays the predecessor matrix representing task dependencies.
@@ -153,34 +168,36 @@ We will present to you the result of our project aimed at implementing schedulin
 
     This function checks if there are any cycles in the task graph, which would indicate a scheduling conflict or impossibility.
 
-    ### Implementation
-
-    ```python
-    def has_cycles(tasks):
-        visited = set()
-        rec_stack = set()
-
-        def is_cyclic(task_id):
-            if task_id in rec_stack:
+    def check_for_cycle(tasks: List[Task]) -> bool:
+    """
+    This function checks for cycles in the task graph using depth-first search (DFS).
+    It starts from each unvisited task and explores its successors.
+    If a successor has already been visited, it means there is a cycle in the graph.
+    The function returns True if a cycle is found, and False otherwise.
+    """
+    visited = set()  # Initialize visited set to track visited tasks
+    
+    def dfs(task):
+        if task.task_id in visited:
+            return True  # Cycle detected
+        
+        visited.add(task.task_id)
+        
+        for successor_id in task.successors:
+            successor = tasks[successor_id - 1]  # Task IDs are 1-based
+            if dfs(successor):
                 return True
-            if task_id in visited:
-                return False
-            
-            visited.add(task_id)
-            rec_stack.add(task_id)
-            
-            for successor in tasks[task_id].successors:
-                if is_cyclic(successor):
-                    return True
-            
-            rec_stack.remove(task_id)
-            return False
-
-        for task in tasks:
-            if task.task_id not in visited:
-                if is_cyclic(task.task_id):
-                    return True
+        
+        visited.remove(task.task_id)  # Remove the task from visited set after DFS traversal
         return False
+    
+    # Start DFS from each unvisited task
+    for task in tasks:
+        if task.task_id not in visited:
+            if dfs(task):
+                return True  # Cycle detected
+    
+    return False  # No cycles found
  ---
 # Thank You for Listening!
 
