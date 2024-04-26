@@ -1,4 +1,4 @@
-from functions import tasks_from_constraints, generate_adjacency_matrix, display_adjacency_matrix, generate_predecessor_matrix, display_predecessor_matrix, check_for_cycle, check_negative_edge, display_ranks, getRank, display_tasks_with_words
+from functions import tasks_from_constraints, generate_adjacency_matrix, display_adjacency_matrix, generate_predecessor_matrix, display_predecessor_matrix, check_for_cycle, check_negative_edge, setRank, display_tasks_with_words
 import os
 from typing import List
 
@@ -6,18 +6,18 @@ from typing import List
 def run_all():
     files = os.listdir("src/constraints")
     for file in files:
-        Tasks = tasks_from_constraints(f"src/constraints/{file}")
+        tasks = tasks_from_constraints(f"src/constraints/{file}")
 
         print(file)
-        display_tasks_with_words(Tasks)
+        display_tasks_with_words(tasks)
         print("\n")
 
-        ajdacencyMatrix: List[List[int]] = generate_adjacency_matrix(Tasks)
+        ajdacencyMatrix: List[List[int]] = generate_adjacency_matrix(tasks)
         print("adjacency matrix:")
         display_adjacency_matrix(ajdacencyMatrix)
         print("\n")
 
-        predecessorMatrix: List[List[int]] = generate_predecessor_matrix(Tasks)
+        predecessorMatrix: List[List[int]] = generate_predecessor_matrix(tasks)
         print("predecessor matrix:")
         display_predecessor_matrix(predecessorMatrix)
         print("\n")
@@ -31,7 +31,9 @@ def run_all():
         print("\n")
 
         if not hasCycles and not hasNegativeEdge:
-            display_ranks(getRank(Tasks))
+            setRank(tasks)
+            for task in tasks:
+                print(f"Task {task.task_id} rank: {task.rank}")
             print("\n")
 
 """ copilot input:
@@ -105,7 +107,9 @@ def main():
                 print("Table has a negative edge: (True is bad)", has_negative_edge)
             elif option == 6:
                 if not check_for_cycle((tasks)) and not check_negative_edge((tasks)):
-                    display_ranks(getRank(tasks))
+                    setRank(tasks)
+                    for task in tasks:
+                        print(f"Task {task.task_id} rank: {task.rank}")
             elif option == 7:
                 break
             elif option == 8:

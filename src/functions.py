@@ -12,14 +12,17 @@ On each line,
 
 
 class Task:
-    def __init__(self, task_id, duration, *args):
-        self.task_id = task_id
-        self.duration = duration
+    def __init__(self, task_id: int, duration: int, *args):
+        self.task_id: int = task_id
+        self.duration: int = duration
         self.predecessors = args
-        self.successors = []
+        self.successors: List[int] = []
+        self.earliest_start: int = 0
+        self.latest_start: int = 0
+        self.rank: int = 0
 
     def __str__(self):
-        return f"Task number: {self.task_id}, Duration: {self.duration}, Predecessors: {self.predecessors}"
+        return f"Task {self.task_id}: duration={self.duration}, predecessors={self.predecessors}, successors={self.successors}, earliest_start={self.earliest_start}, latest_start={self.latest_start}, rank={self.rank}"
 
 
 def tasks_from_constraints(filename: str) -> list[Task]:
@@ -32,6 +35,7 @@ def tasks_from_constraints(filename: str) -> list[Task]:
     we note that task_id is very often equal to the line number, but we won't use this assumption
     """
     tasks: List[Task] = []
+
     with open(filename) as file:
         for line in file:
             line = line.split()
@@ -57,7 +61,11 @@ def tasks_from_constraints(filename: str) -> list[Task]:
     tasks.append(Task(0, 0))
 
     # we add the fictitious tasks omega labeled N+1
-    tasks.append(Task(len(tasks) + 1, 0))
+    last_tasks: List[int] = []
+    for task in tasks:
+        if task.successors == []:
+            last_tasks.append(task.task_id)
+    tasks.append(Task(len(tasks) + 1, 0, last_tasks))
 
     return tasks
 
@@ -181,27 +189,21 @@ def check_negative_edge(tasks: List[Task]) -> bool:
             return True
     return False
 
-def getRank(tasks: List[Task]) -> List[int]:
-    # This function calculates the rank of each task in the given list of tasks.
-    # It uses a topological sort algorithm to determine the order of tasks.
-    # The rank of a task is the maximum distance from the start node to that task.
-    # The function returns a list of ranks for each task.
 
-    num_tasks = len(tasks)
-    adjacency_matrix = generate_adjacency_matrix(tasks)
-    ranks = [0] * num_tasks
+def getRank(tasks: List[Task], task_id: int) -> None:
+    predecessors_ranks: List[int] = []
+    for predecessor in tasks[task_id - 1].predecessors:
+        if isinstance(predecessor, list):
+            for id in predecessor:
+                predecessors_ranks.append(tasks[int(id)-1].rank)
+        else:
+            predecessors_ranks.append(tasks[int(predecessor)-1].rank)
 
-    for i in range(num_tasks):
-        for j in range(num_tasks):
-            if adjacency_matrix[i][j] == 1:
-                ranks[j] = max(ranks[j], ranks[i] + 1)
+    if tasks[task_id-1].predecessors == []:
+        return 0
+    else:
+        return max(predecessors_ranks) + 1 if predecessors_ranks else 0
 
-    return ranks
-
-def display_ranks(ranks: List[int]) -> None:
-    # This function displays the ranks of each task in the given list.
-    # It prints the task number and its rank in a formatted way.
-
-    print("Task  Rank")
-    for i, rank in enumerate(ranks):
-        print(f"{i+1}     {rank}")
+def setRank(tasks: List[Task]) -> None:
+    for task in tasks:
+        task.rank = getRank(tasks, task.task_id)
